@@ -437,9 +437,14 @@ There are also config values that you can set:
    following values:
 
    * ``'signature'`` -- Show typehints as its signature (default)
+   * ``'description'`` -- Inject ``:type:`` and ``:rtype:`` annotations into the
+     documentation string.
    * ``'none'`` -- Do not show typehints
 
    .. versionadded:: 2.1
+
+   .. versionchanged:: 2.4
+      Added ``'description'`` capability.
 
 .. confval:: autodoc_warningiserror
 
