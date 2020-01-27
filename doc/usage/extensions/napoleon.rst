@@ -265,13 +265,16 @@ sure that "sphinx.ext.napoleon" is enabled in `conf.py`::
     napoleon_numpy_docstring = True
     napoleon_include_init_with_doc = False
     napoleon_include_private_with_doc = False
-    napoleon_include_special_with_doc = True
+    napoleon_include_special_with_doc = False
     napoleon_use_admonition_for_examples = False
     napoleon_use_admonition_for_notes = False
     napoleon_use_admonition_for_references = False
     napoleon_use_ivar = False
     napoleon_use_param = True
     napoleon_use_rtype = True
+    napoleon_use_keyword = True
+    napoleon_custom_sections = None
+    napoleon_numpy_returns_no_rtype = False
 
 .. _Google style:
    https://google.github.io/styleguide/pyguide.html
@@ -298,9 +301,9 @@ sure that "sphinx.ext.napoleon" is enabled in `conf.py`::
    **If True**::
 
        def __init__(self):
-           \"\"\"
+           """
            This will be included in the docs because it has a docstring
-           \"\"\"
+           """
 
        def __init__(self):
            # This will NOT be included in the docs
@@ -327,7 +330,7 @@ sure that "sphinx.ext.napoleon" is enabled in `conf.py`::
 
    True to include special members (like ``__membername__``) with
    docstrings in the documentation. False to fall back to Sphinx's
-   default behavior. *Defaults to True.*
+   default behavior. *Defaults to False.*
 
    **If True**::
 
@@ -449,10 +452,11 @@ sure that "sphinx.ext.napoleon" is enabled in `conf.py`::
    keywords.
    *Defaults to True.*
 
-   This behaves similarly to  :attr:`napoleon_use_param`. Note unlike docutils,
-   ``:keyword:`` and ``:param:`` will not be treated the same way - there will
-   be a separate "Keyword Arguments" section, rendered in the same fashion as
-   "Parameters" section (type links created if possible)
+   This behaves similarly to  :attr:`napoleon_use_param`. Note unlike
+   docutils, ``:keyword:`` and ``:param:`` will not be treated the same
+   way - there will be a separate "Keyword Arguments" section, rendered
+   in the same fashion as "Parameters" section (type links created if
+   possible)
 
    .. seealso::
 
@@ -478,3 +482,17 @@ sure that "sphinx.ext.napoleon" is enabled in `conf.py`::
    **If False**::
 
        :returns: *bool* -- True if successful, False otherwise
+
+.. confval:: napoleon_custom_sections
+
+   Add a list of custom sections to include, expanding the list of parsed sections.
+   *Defaults to None.*
+
+   The entries can either be strings or tuples, depending on the intention:
+     * To create a custom "generic" section, just pass a string.
+     * To create an alias for an existing section, pass a tuple containing the
+   alias name and the original, in that order.
+
+   If an entry is just a string, it is interpreted as a header for a generic
+   section. If the entry is a tuple/list/indexed container, the first entry
+   is the name of the section, the second is the section key to emulate.
