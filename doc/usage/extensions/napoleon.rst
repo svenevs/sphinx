@@ -491,7 +491,7 @@ sure that "sphinx.ext.napoleon" is enabled in `conf.py`::
    The entries can either be strings or tuples, depending on the intention:
      * To create a custom "generic" section, just pass a string.
      * To create an alias for an existing section, pass a tuple containing the
-   alias name and the original, in that order.
+       alias name and the original, in that order.
 
    If an entry is just a string, it is interpreted as a header for a generic
    section. If the entry is a tuple/list/indexed container, the first entry
