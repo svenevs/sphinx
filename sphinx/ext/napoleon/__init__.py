@@ -41,6 +41,7 @@ class Config:
         napoleon_use_rtype = True
         napoleon_use_keyword = True
         napoleon_custom_sections = None
+        napoleon_numpy_returns_no_rtype = False
 
     .. _Google style:
        https://google.github.io/styleguide/pyguide.html
@@ -247,7 +248,37 @@ class Config:
         section. If the entry is a tuple/list/indexed container, the first entry
         is the name of the section, the second is the section key to emulate.
 
+    napoleon_numpy_returns_no_rtype : :obj:`bool` (Defaults to False)
+        Traditional `NumPy style`_ requires the return type and a description
+        provided indented underneath::
 
+            Returns
+            -------
+            bool
+                A description of the return.
+            int
+                A different description for a different possible return.
+
+        This style affords the ability to document multiple return types, but
+        the formatting rules inherently prohibit omitting the return type.  If
+        using :confval:`autodoc_typehints` as ``'description'``, and setting
+        this configuration value to ``True``, a user may omit the return type:
+
+        .. code-block:: diff
+
+             Returns
+             -------
+           + A description of the return.
+           - bool
+           -     A description of the return.
+
+        As python function signatures may only have one return type annotation,
+        setting this value to True implies only one return type is being
+        documented.
+
+        .. versionadded:: 2.4
+
+        .. seealso:: `Type Annotations`_.
     """
     _config_values = {
         'napoleon_google_docstring': (True, 'env'),
@@ -262,7 +293,8 @@ class Config:
         'napoleon_use_param': (True, 'env'),
         'napoleon_use_rtype': (True, 'env'),
         'napoleon_use_keyword': (True, 'env'),
-        'napoleon_custom_sections': (None, 'env')
+        'napoleon_custom_sections': (None, 'env'),
+        'napoleon_numpy_returns_no_rtype': (False, 'env')
     }
 
     def __init__(self, **settings: Any) -> None:

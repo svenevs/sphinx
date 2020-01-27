@@ -203,6 +203,9 @@ One benefit of expressing types according to `PEP 484`_ is that
 type checkers and IDEs can take advantage of them for static code
 analysis.
 
+Google Style
+************
+
 Google style with Python 3 type annotations::
 
     def func(arg1: int, arg2: str) -> bool:
@@ -247,6 +250,42 @@ Google style with types in docstrings::
 .. _Python 2/3 compatible annotations:
    https://www.python.org/dev/peps/pep-0484/#suggested-syntax-for-python-2-7-and-straddling-code
 
+NumPy Style
+***********
+
+NumPy style users may set :confval:`autodoc_typehints` to ``'description'`` in
+``conf.py`` to let the :mod:`autodoc <sphinx.ext.autodoc>` extension populate
+the type annotations. Simply omit the type annotation:
+
+.. code-block:: diff
+
+     Parameters
+     ----------
+   - arg1 : int
+   + arg1
+         Description of arg1
+   - arg2 : str
+   + arg2
+         Description of arg2
+
+.. note::
+
+   Values specified in the docstring take precedence over
+   :confval:`autodoc_typehints`.
+
+   .. code-block:: python3
+
+      def foo(arg: int):
+          """Summary line.
+
+          Parameters
+          ----------
+          arg : str
+              This will be documented as type ``str``, not ``int``.
+          """
+
+For automatic return types, the NumPy format must be changed by setting
+:confval:`napoleon_numpy_returns_no_rtype` to ``True`` in ``conf.py``.
 
 Configuration
 -------------
@@ -496,3 +535,36 @@ sure that "sphinx.ext.napoleon" is enabled in `conf.py`::
    If an entry is just a string, it is interpreted as a header for a generic
    section. If the entry is a tuple/list/indexed container, the first entry
    is the name of the section, the second is the section key to emulate.
+
+.. confval:: napoleon_numpy_returns_no_rtype
+
+   *Defaults to False.*
+   Traditional `NumPy style`_ requires the return type and a description
+   provided indented underneath::
+
+       Returns
+       -------
+       bool
+           A description of the return.
+       int
+           A different description for a different possible return.
+
+   This style affords the ability to document multiple return types, but
+   the formatting rules inherently prohibit omitting the return type.  If
+   using :confval:`autodoc_typehints` as ``'description'``, and setting
+   this configuration value to ``True``, a user may omit the return type:
+
+   .. code-block:: diff
+
+        Returns
+        -------
+      + A description of the return.
+      - bool
+      -     A description of the return.
+
+   As python function signatures may only have one return type annotation,
+   setting this value to True implies only one return type is being
+   documented.
+
+   .. versionadded:: 2.4
+   .. seealso:: `Type Annotations`_.

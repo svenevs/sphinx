@@ -887,7 +887,16 @@ class NumpyDocstring(GoogleDocstring):
         return _name, _type, _desc
 
     def _consume_returns_section(self) -> List[Tuple[str, str, List[str]]]:
-        return self._consume_fields(prefer_type=True)
+        # Default is False, consume fields like normal.
+        # Otherwise, simply return the whole Returns section unchanged.
+        if not self._config.napoleon_numpy_returns_no_rtype:
+            return self._consume_fields(prefer_type=True)
+        else:
+            self._consume_empty()
+            desc_lines = []
+            while not self._is_section_break():
+                desc_lines.append(next(self._line_iter))
+            return [('', '', desc_lines)]
 
     def _consume_section_header(self) -> str:
         section = next(self._line_iter)
